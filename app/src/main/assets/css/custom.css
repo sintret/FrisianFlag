@@ -14,7 +14,7 @@
     src:url('../fonts/College-Condensed.ttf.woff') format('woff'),
         url('../fonts/College-Condensed.ttf.svg#College-Condensed') format('svg'),
         url('../fonts/College-Condensed.ttf.eot'),
-        url('../fonts/College-Condensed.ttf.eot?#iefix') format('embedded-opentype'); 
+        url('../fonts/College-Condensed.ttf.eot?#iefix') format('embedded-opentype');
     font-weight: normal;
     font-style: normal;
 }
@@ -25,8 +25,23 @@
     clear: both;
 }
 .ff-body {
-     background:url(../img/bg.jpg) no-repeat;
-     background-size:cover;   
+     background:#fff;
+     background-size:cover;
+}
+.ff-background {
+    /* Set rules to fill background */
+    min-height: 100%;
+    min-width: 1024px;
+
+    /* Set up proportionate scaling */
+    width: 100%;
+    height: auto;
+
+    /* Set up positioning */
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
 }
 .ff-brand-list {
      border:0px;
