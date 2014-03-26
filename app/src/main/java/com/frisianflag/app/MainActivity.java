@@ -15,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -66,6 +68,15 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+    public void home(){
+        mWebView.loadUrl("file:///android_asset/index.html");
+    }
+
+    private void animate(final WebView view) {
+        Animation anim = AnimationUtils.loadAnimation(getBaseContext(),
+                android.R.anim.slide_in_left);
+        view.startAnimation(anim);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -81,10 +92,17 @@ public class MainActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                home();
+                return true;
+            case R.id.action_logout:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -133,8 +151,9 @@ public class MainActivity extends ActionBarActivity {
 
                 return false;
             } else {
-            view.loadUrl(url);
-            return true;
+                animate(view);
+                view.loadUrl(url);
+                return true;
             }
         }
     }
