@@ -1,0 +1,170 @@
+@font-face {
+    font-family: 'score_boardregular';
+    src: url('../fonts/scoreboard-webfont.eot');
+    src: url('../fonts/scoreboard-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/scoreboard-webfont.woff') format('woff'),
+         url('../fonts/scoreboard-webfont.ttf') format('truetype'),
+         url('../fonts/scoreboard-webfont.svg#score_boardregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'College-Condensed';
+    src:url('../fonts/College-Condensed.ttf.woff') format('woff'),
+        url('../fonts/College-Condensed.ttf.svg#College-Condensed') format('svg'),
+        url('../fonts/College-Condensed.ttf.eot'),
+        url('../fonts/College-Condensed.ttf.eot?#iefix') format('embedded-opentype'); 
+    font-weight: normal;
+    font-style: normal;
+}
+.ui-page-theme-a {
+    background-color:transparent;
+}
+.clearfix {
+    clear: both;
+}
+.ff-body {
+     background:url(../img/bg.jpg) no-repeat;
+     background-size:cover;   
+}
+.ff-brand-list {
+     border:0px;
+     max-width: 500px;
+     margin: auto;
+}
+.ff-brand-list img {
+    max-width: 100%;
+    border:0;
+    text-align: center;
+}
+.ff-ball-bg {
+    background: url(../img/bola.png) no-repeat center;
+    display: block;
+    height:192px;
+    width:192px;
+    position: absolute;
+    right:0;
+    bottom:0;
+}
+.ff-play-btn {
+    display:block;
+    width:108px;
+    margin: 10% auto 0 auto;
+}
+.ff-play-btn img {
+    text-align: center;
+}
+.ff-headline {
+     border:0px;
+     max-width: 142px;
+     margin: auto;
+}
+.ff-menu {
+    margin-bottom: 20px;
+}
+.ff-menu .title {
+    font-family: 'score_boardregular';
+    width: 50%;
+    border:8px solid #000;
+    background:rgba(0,0,0,0.8);
+    text-align: center;
+    margin: auto;
+    padding: 10px;
+    font-size: 18px;
+}
+.ff-menu .title a {
+    color:#ee9191;
+    text-decoration: none;
+    text-shadow: 0 0 7px #cc0000;
+}
+
+.ff-menu .title a:hover,
+.ff-menu .title a:focus {
+    text-decoration: none;
+    text-shadow:none;
+}
+.ff-detail-ball {
+    line-height: 0px;
+    margin-bottom: 0px;
+}
+.ff-detail {
+    position: relative;
+    width: 70%;
+    margin: auto;
+    background:#111111;
+    padding: 10px;
+    border-bottom: 15px solid #ffffff;
+}
+.ff-detail .border-top {
+    background: #cf0404; /* Old browsers */
+    background: -moz-linear-gradient(left,  #cf0404 0%, #ff776b 49%, #cf0404 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#cf0404), color-stop(49%,#ff776b), color-stop(100%,#cf0404)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left,  #cf0404 0%,#ff776b 49%,#cf0404 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left,  #cf0404 0%,#ff776b 49%,#cf0404 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(left,  #cf0404 0%,#ff776b 49%,#cf0404 100%); /* IE10+ */
+    background: linear-gradient(to right,  #cf0404 0%,#ff776b 49%,#cf0404 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cf0404', endColorstr='#cf0404',GradientType=1 ); /* IE6-9 */
+    display: block;
+    height: 10px;
+    width:100%;
+}
+.ff-detail .border-head {
+    margin: 10px 0;
+    font-size: 55px;
+    border:5px solid #ffffff;
+    color:#fff;
+    display: block;
+}
+
+.ff-detail .border-head .number {
+    width: 65px;
+    color:#ee9191;
+    text-shadow: 0 0 7px #cc0000;
+    font-family: 'score_boardregular';
+    border-right: 5px solid #ffffff;
+    text-align: center;
+    display: inline-block;
+    float: left;
+    text-align: center;
+}
+.ff-detail .border-head .title {
+    width: 60%;
+    font-size: 30px;
+    font-family: 'College-Condensed';
+    letter-spacing: -1px;
+    text-align: center;
+    display: inline-block;
+    line-height: 1;
+    vertical-align: text-top;
+}
+.ff-detail .border-main {
+    margin: 10px 0 0 0;
+    background: #222;
+    padding: 5px 10px;
+}
+.ff-detail .border-main ul {
+    -webkit-padding-start:0px;
+    -webkit-margin-before: 0px;
+    -webkit-margin-after: 0px;
+    margin-left: 0px;
+    padding-left: 0px;
+}
+.ff-detail .border-main ul li {
+    list-style: none;
+    font-size:30px;
+    white-space: normal;
+    word-wrap: break-word;
+    margin-bottom: 10px;
+}
+.ff-detail .border-main ul li a {
+    font-family: 'score_boardregular';
+    color:#ee9191;
+    text-decoration: none;
+    text-shadow: 0 0 17px #cc0000;
+}
+.ff-detail .border-main ul li a:hover,
+.ff-detail .border-main ul li a:focus {
+    text-decoration: none;
+    text-shadow:none;
+}
