@@ -4,10 +4,9 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -15,12 +14,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -30,14 +28,16 @@ import java.io.OutputStream;
 
 public class MainActivity extends ActionBarActivity {
 
-    private WebView mWebView;
+    public WebView mWebView;
     static String extStorageDirectory =  Environment.getExternalStorageDirectory().toString();
     final static String TARGET_BASE_PATH = extStorageDirectory+"/frisianFlag/";
     String fullname="";
+     ViewFlipper mViewFlipper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
   /*      getActionBar().setDisplayShowHomeEnabled(false);
         getActionBar().setDisplayShowTitleEnabled(false);
@@ -46,25 +46,27 @@ public class MainActivity extends ActionBarActivity {
 
         // util
         //createDir("frisianFlag");
-        copyFileOrDir("doc");
+        //copyFileOrDir("doc");
+
+        // set the flipper
+        mViewFlipper = (ViewFlipper) findViewById(R.id.flipview);
 
         mWebView = (WebView) findViewById(R.id.activity_main_webview);
 
         // Enable Javascript
-        mWebView.setWebChromeClient(new WebChromeClient());
+        //mWebView.setWebChromeClient(new WebChromeClient());
         //mWebView.setWebViewClient(new MyWebViewClient());
         //mWebView.setWebViewClient(new WebChromeClient());
 
-        mWebView.clearCache(true);
-        mWebView.clearHistory();
-        mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        mWebView.setWebViewClient(new MyWebViewClient());
-        mWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
-            mWebView.getSettings().setAllowUniversalAccessFromFileURLs(true);
+      //  mWebView.getSettings().setJavaScriptEnabled(true);
+       // mWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         mWebView.loadUrl("file:///android_asset/index.html");
+
+        mWebView.setWebViewClient(new MyWebViewClient());
+       // mWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+
+       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+            mWebView.getSettings().setAllowUniversalAccessFromFileURLs(true);*/
 
     }
 
@@ -72,10 +74,14 @@ public class MainActivity extends ActionBarActivity {
         mWebView.loadUrl("file:///android_asset/index.html");
     }
 
-    private void animate(final WebView view) {
+    private void animate() {
+        mViewFlipper.setInAnimation(getBaseContext(), R.anim.grow_from_middle);
+        mViewFlipper.setOutAnimation(getBaseContext(), R.anim.shrink_to_middle);
+        mViewFlipper.showNext();
+      /*
         Animation anim = AnimationUtils.loadAnimation(getBaseContext(),
                 android.R.anim.slide_in_left);
-        view.startAnimation(anim);
+        view.startAnimation(anim);*/
     }
 
     @Override
@@ -91,7 +97,6 @@ public class MainActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.action_settings:
@@ -105,21 +110,7 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
 
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
-        }
-    }
 
     private class MyWebViewClient extends WebViewClient {
         @Override
@@ -136,7 +127,7 @@ public class MainActivity extends ActionBarActivity {
 
                 // PDF reader code //
                 File file = new File(fullname);
-                Toast.makeText(MainActivity.this, "opening..", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "open document..", Toast.LENGTH_LONG).show();
                 if (!file.exists())
                 {
                     Toast.makeText(MainActivity.this, name + " Not Found.....", Toast.LENGTH_LONG).show();
@@ -151,7 +142,7 @@ public class MainActivity extends ActionBarActivity {
 
                 return false;
             } else {
-                animate(view);
+                animate();
                 view.loadUrl(url);
                 return true;
             }
@@ -170,115 +161,5 @@ public class MainActivity extends ActionBarActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    //method to write the PDFs file to sd card
-    private void copyAssets() {
-        AssetManager assetManager = getAssets();
-        String[] files = null;
-        try {
-            files = assetManager.list("doc");
-        } catch (IOException e) {
-            Log.e("tag", "Failed to get asset file list.", e);
-            Toast.makeText(MainActivity.this,  " FILE Not Found.....", Toast.LENGTH_LONG).show();
 
-        }
-        for(String filename : files) {
-            InputStream in = null;
-            OutputStream out = null;
-            try {
-                in = assetManager.open(filename);
-                File outFile = new File(TARGET_BASE_PATH, filename);
-                out = new FileOutputStream(outFile);
-                copyFile(in, out);
-                in.close();
-                in = null;
-                out.flush();
-                out.close();
-                out = null;
-            } catch(IOException e) {
-                Log.e("tag", "Failed to copy asset file: " + filename, e);
-            }
-        }
-    }
-    private void copyFile(InputStream in, OutputStream out) throws IOException {
-        byte[] buffer = new byte[1024];
-        int read;
-        while((read = in.read(buffer)) != -1){
-            out.write(buffer, 0, read);
-        }
-    }
-
-    public static boolean createDir(String path) {
-        boolean ret = true;
-
-        File file = new File(Environment.getExternalStorageDirectory(), path);
-        if (!file.exists()) {
-            if (!file.mkdirs()) {
-                Log.e("TravellerLog :: ", "Problem creating Image folder");
-                ret = false;
-            }
-        }
-        return ret;
-    }
-
-    private void copyFileOrDir(String path) {
-        AssetManager assetManager = this.getAssets();
-        String assets[] = null;
-        try {
-            Log.i("tag", "copyFileOrDir() "+path);
-            assets = assetManager.list(path);
-            if (assets.length == 0) {
-                copyFile(path);
-            } else {
-                String fullPath =  TARGET_BASE_PATH + path;
-                Log.i("tag", "path="+fullPath);
-                File dir = new File(fullPath);
-                if (!dir.exists())
-                    if (!dir.mkdirs());
-                Log.i("tag", "could not create dir "+fullPath);
-                for (int i = 0; i < assets.length; ++i) {
-                    String p;
-                    if (path.equals(""))
-                        p = "";
-                    else
-                        p = path + "/";
-
-                    copyFileOrDir( p + assets[i]);
-                }
-            }
-        } catch (IOException ex) {
-            Log.e("tag", "I/O Exception", ex);
-        }
-    }
-
-    private void copyFile(String filename) {
-        AssetManager assetManager = this.getAssets();
-
-        InputStream in = null;
-        OutputStream out = null;
-        String newFileName = null;
-        try {
-            Log.i("tag", "copyFile() "+filename);
-            in = assetManager.open(filename);
-            if (filename.endsWith(".jpg")) // extension was added to avoid compression on APK file
-                newFileName = TARGET_BASE_PATH + filename.substring(0, filename.length()-4);
-            else
-                newFileName = TARGET_BASE_PATH + filename;
-            out = new FileOutputStream(newFileName);
-
-            byte[] buffer = new byte[1024];
-            int read;
-            while ((read = in.read(buffer)) != -1) {
-                out.write(buffer, 0, read);
-            }
-            in.close();
-            in = null;
-            out.flush();
-            out.close();
-            out = null;
-        } catch (Exception e) {
-            Log.e("tag", "Exception in copyFile() of "+newFileName);
-            Log.e("tag", "Exception in copyFile() "+e.toString());
-        }
-
-    }
 }
