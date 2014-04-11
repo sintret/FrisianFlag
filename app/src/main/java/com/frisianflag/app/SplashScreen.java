@@ -21,7 +21,7 @@ import java.io.OutputStream;
 public class SplashScreen extends ActionBarActivity {
 
     // Splash screen timer
-    private static int SPLASH_TIME_OUT = 8000;
+    private static int SPLASH_TIME_OUT = 4000;
     static String extStorageDirectory =  Environment.getExternalStorageDirectory().toString();
     final static String TARGET_BASE_PATH = extStorageDirectory+"/frisianFlag/";
     String fullname="";
@@ -29,8 +29,10 @@ public class SplashScreen extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
-
+        GIFView view = new GIFView(this, "file:///android_asset/img/loading.gif");
+        //getActionBar().hide();
+        //setContentView(R.layout.view);
+        setContentView(view);
         new Handler().postDelayed(new Runnable() {
             /*
              * Showing splash screen with a timer. This will be useful when you
