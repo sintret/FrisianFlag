@@ -3,18 +3,13 @@ package com.frisianflag.app;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -22,7 +17,6 @@ import android.widget.ViewFlipper;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -44,7 +38,16 @@ public class MainActivity extends ActionBarActivity {
         getActionBar().setDisplayHomeAsUpEnabled(false);*/
         getActionBar().hide();
 
-        // util
+        // create dir
+        File dir = new File(TARGET_BASE_PATH+"/doc");
+        if(!dir.exists()){
+            dir.mkdirs();
+            Log.e("tag","create directory successfully");
+        } else {
+            Log.e("tag","directory exist");
+        }
+
+
         //createDir("frisianFlag");
         //copyFileOrDir("doc");
 
@@ -130,7 +133,8 @@ public class MainActivity extends ActionBarActivity {
                 Toast.makeText(MainActivity.this, "open document..", Toast.LENGTH_LONG).show();
                 if (!file.exists())
                 {
-                    Toast.makeText(MainActivity.this, name + " Not Found.....", Toast.LENGTH_LONG).show();
+                   copyFile(name);
+                    //Toast.makeText(MainActivity.this, name + " Not Found.....", Toast.LENGTH_LONG).show();
                 }
 
                 Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -161,5 +165,60 @@ public class MainActivity extends ActionBarActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+    public void copyFile(String filename) {
+        AssetManager assetManager = this.getAssets();
+
+        InputStream in = null;
+        OutputStream out = null;
+        String newFileName = null;
+        try {
+            Log.i("tag", "copyFile() "+filename);
+            in = assetManager.open("doc/" +filename);
+            if (filename.endsWith(".jpg")) // extension was added to avoid compression on APK file
+                newFileName = TARGET_BASE_PATH + "doc/" + filename.substring(0, filename.length()-4);
+            else
+                newFileName = TARGET_BASE_PATH + "doc/" +filename;
+            out = new FileOutputStream(newFileName);
+
+            byte[] buffer = new byte[1024];
+            int read;
+            while ((read = in.read(buffer)) != -1) {
+                out.write(buffer, 0, read);
+            }
+            in.close();
+            in = null;
+            out.flush();
+            out.close();
+            out = null;
+        } catch (Exception e) {
+            Log.e("tag", "Exception in copyFile() of "+newFileName);
+            Log.e("tag", "Exception in copyFile() "+e.toString());
+        }
+
+    }
+
+   /* public void copyFileChannel(String name) {
+        AssetManager assetManager = this.getAssets();
+        String destination = TARGET_BASE_PATH+"doc/"+name;
+        String src = assetManager.toString()+"/doc/"+name;
+        File source = new File(src);
+        File dest = new File(destination);
+        FileChannel inputChannel = null;
+        FileChannel outputChannel = null;
+        try {
+            inputChannel = new FileInputStream(source).getChannel();
+            //inputChannel = assetManager.open(s).getClass().get
+            //inputChannel = assetManager.open(s);
+            outputChannel = new FileOutputStream(dest).getChannel();
+            outputChannel.transferFrom(inputChannel, 0, inputChannel.size());
+            inputChannel.close();
+            outputChannel.close();
+        }
+        catch (IOException e) {
+            Log.e("tag",e.getMessage());
+            Log.e("tag",destination);
+            Log.e("tag",src);
+        }
+    }*/
 
 }

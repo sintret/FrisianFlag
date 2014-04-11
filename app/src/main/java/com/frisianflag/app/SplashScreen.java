@@ -1,18 +1,10 @@
 package com.frisianflag.app;
 
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 
 /**
@@ -22,14 +14,14 @@ public class SplashScreen extends ActionBarActivity {
 
     // Splash screen timer
     private static int SPLASH_TIME_OUT = 4000;
-    static String extStorageDirectory =  Environment.getExternalStorageDirectory().toString();
+/*    static String extStorageDirectory =  Environment.getExternalStorageDirectory().toString();
     final static String TARGET_BASE_PATH = extStorageDirectory+"/frisianFlag/";
-    String fullname="";
+    String fullname="";*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        GIFView view = new GIFView(this, "file:///android_asset/img/loading.gif");
+        GIFView view = new GIFView(this, "file:///android_asset/loading.html");
         //getActionBar().hide();
         //setContentView(R.layout.view);
         setContentView(view);
@@ -42,7 +34,7 @@ public class SplashScreen extends ActionBarActivity {
             @Override
             public void run() {
 
-                copyFileOrDir("doc");
+                //copyFileOrDir("doc");
                 // This method will be executed once the timer is over
                 // Start your app main activity
                 Intent i = new Intent(SplashScreen.this, MainActivity.class);
@@ -55,7 +47,7 @@ public class SplashScreen extends ActionBarActivity {
     }
 
 
-    private void copyFileOrDir(String path) {
+   /* private void copyFileOrDir(String path) {
         AssetManager assetManager = this.getAssets();
         String assets[] = null;
         try {
@@ -115,5 +107,5 @@ public class SplashScreen extends ActionBarActivity {
             Log.e("tag", "Exception in copyFile() "+e.toString());
         }
 
-    }
+    }*/
 }
