@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Frisian Flag</string>
+    <string name="app_name">FFI Channel Guidelines instead of Frisian Flag</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Home</string>
     <string name="action_logout">Exit</string>

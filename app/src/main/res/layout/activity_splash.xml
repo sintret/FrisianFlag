@@ -4,5 +4,5 @@ android:layout_width="fill_parent"
 android:layout_height="fill_parent"
     android:gravity="fill_vertical"
     android:layout_gravity="fill_vertical"
-    android:background="@drawable/default_landscape">
+    android:background="@drawable/loading">
 </LinearLayout>
